@@ -5,8 +5,8 @@ from time import sleep
 #CART_ICON = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
 #ADD_TO_CART_BTN = (By.CSS_SELECTOR, "[id*='addToCartButton']")
 #ADD_TO_CART_SIDE_NAV_BTN = (By.CSS_SELECTOR, "[data-test='content-wrapper'] [id*='addToCart']")
-SIGN_IN_EMAIL= '******'
-SIGN_IN_PASSWORD = '******'
+SIGN_IN_EMAIL= 'jamesgregorydandrea@hotmail.com'
+SIGN_IN_PASSWORD = 'Reelly'
 SIGN_IN_WITH_BTN = (By.XPATH, "//a[@wized='loginButton']")
 OFF_PLAN_BTN = (By.XPATH, "//a[text()='Off-plan']")
 OFF_PLAN_CSS_BTN = (By.CSS_SELECTOR, '#w-node-b528dfcf-d2ee-f936-302e-86e97f0796e8-7f66df20')
