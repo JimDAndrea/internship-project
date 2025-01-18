@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from behave import given, when, then
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
@@ -12,7 +14,7 @@ OFF_PLAN_BTN = (By.XPATH, "//a[text()='Off-plan']")
 OFF_PLAN_CSS_BTN = (By.CSS_SELECTOR, '#w-node-b528dfcf-d2ee-f936-302e-86e97f0796e8-7f66df20')
 NEXT_PAGE_BTN = (By.XPATH, "//div[text()='Next page']")
 PREV_PAGE_BTN = (By.XPATH, "//div[text()='Prev. page']")
-CURRENT_PROPERTIES = (By. XPATH, "//div[@wized='currentPageProperties' and @class='page-count']")
+CURRENT_PROPERTIES = (By.XPATH, "//div[@wized='currentPageProperties' and @class='page-count']")
 
 @given('Open Reelly main page')
 def open_main(context):
@@ -36,21 +38,22 @@ def VerifyMainPageOpen(context):
     context.driver.find_element(*SIGN_IN_WITH_BTN).click()
     sleep(5)
 
-@then ('Click off plan option')
+@then('Click off plan option')
 def ClickOffPlanOption(context):
-    context.driver.wait.until(EC.element_to_be_clickable(OFF_PLAN_CSS_BTN)).click()
+    wait = WebDriverWait(context.driver, 10)  # Adjust timeout as needed
+    off_plan_button = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[text()='Off-plan']"))
+    )
+    off_plan_button.click()
 
 @then ('Go to the final page using the pagination button')
 def ScrollPagesDown(context):
-
     context.driver.wait.until(EC.element_to_be_clickable(NEXT_PAGE_BTN)).click()
-
     current_page_count_element = context.driver.wait.until(EC.visibility_of_element_located((By.XPATH,"//div[@wized='currentPageProperties']")))
     total_page_count_element = context.driver.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@wized='totalPageProperties']")))
     # Extract the total page count
     current_page_count = int(current_page_count_element.text)
     total_page_count = int(total_page_count_element.text)
-
     print(f"Total Page Count: {total_page_count}")
     print(f"Current Page Count: {current_page_count}")
 

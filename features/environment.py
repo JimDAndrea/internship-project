@@ -1,8 +1,8 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options  # Import Options here
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 from app.application import Application
 
 def browser_init(context):
@@ -10,17 +10,16 @@ def browser_init(context):
     :param context: Behave context
     """
     options = Options()
-    options.add_argument("--headless")  # Set headless mode
+    # options.add_argument("--headless")  # Set headless mode
 
-    driver_path = ChromeDriverManager().install()
+    driver_path = GeckoDriverManager().install()
     service = Service(driver_path)
-    context.driver = webdriver.Chrome(service=service)
+    context.driver = webdriver.Firefox(service=service, options=options)
 
-    context.driver.maximize_window()
     context.driver.implicitly_wait(4)
     context.driver.wait = WebDriverWait(context.driver, 15)
     context.app = Application(context.driver)
-
+    print(f"context.app: {context.app}")  # Verify the app object
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
